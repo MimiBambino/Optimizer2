@@ -283,48 +283,50 @@ function getNoun(y) {
 };
 
 var adjectives = ["dark", "color", "whimsical", "shiny", "noise", "apocalyptic", "insulting", "praise", "scientific"];  // types of adjectives for pizza titles
+var adjLen = adjectives.length;
 var nouns = ["animals", "everyday", "fantasy", "gross", "horror", "jewelry", "places", "scifi"];                        // types of nouns for pizza titles
+var nounLen = nouns.length;
 
 // Generates random numbers for getAdj and getNoun functions and returns a new pizza name
 function generator(adj, noun) {
   var adjectives = getAdj(adj);
   var nouns = getNoun(noun);
-  var randomAdjective = parseInt(Math.random() * adjectives.length);
-  var randomNoun = parseInt(Math.random() * nouns.length);
+  var randomAdjective = parseInt(Math.random() * adjLen);
+  var randomNoun = parseInt(Math.random() * nounLen);
   var name = "The " + adjectives[randomAdjective].capitalize() + " " + nouns[randomNoun].capitalize();
   return name;
 };
 
 // Chooses random adjective and random noun
 function randomName() {
-  var randomNumberAdj = parseInt(Math.random() * adjectives.length);
-  var randomNumberNoun = parseInt(Math.random() * nouns.length);
+  var randomNumberAdj = parseInt(Math.random() * adjLen);
+  var randomNumberNoun = parseInt(Math.random() * nounLen);
   return generator(adjectives[randomNumberAdj], nouns[randomNumberNoun]);
 };
 
 // These functions return a string of a random ingredient from each respective category of ingredients.
 var selectRandomMeat = function() {
-  var randomMeat = pizzaIngredients.meats[Math.floor((Math.random() * pizzaIngredients.meats.length))];
+  var randomMeat = pizzaIngredients.meats[Math.floor((Math.random() * 35))];
   return randomMeat;
 }
 
 var selectRandomNonMeat = function() {
-  var randomNonMeat = pizzaIngredients.nonMeats[Math.floor((Math.random() * pizzaIngredients.nonMeats.length))];
+  var randomNonMeat = pizzaIngredients.nonMeats[Math.floor((Math.random() * 39))];
   return randomNonMeat;
 }
 
 var selectRandomCheese = function() {
-  var randomCheese = pizzaIngredients.cheeses[Math.floor((Math.random() * pizzaIngredients.cheeses.length))];
+  var randomCheese = pizzaIngredients.cheeses[Math.floor((Math.random() * 29))];
   return randomCheese;
 }
 
 var selectRandomSauce = function() {
-  var randomSauce = pizzaIngredients.sauces[Math.floor((Math.random() * pizzaIngredients.sauces.length))];
+  var randomSauce = pizzaIngredients.sauces[Math.floor((Math.random() * 5))];
   return randomSauce;
 }
 
 var selectRandomCrust = function() {
-  var randomCrust = pizzaIngredients.crusts[Math.floor((Math.random() * pizzaIngredients.crusts.length))];
+  var randomCrust = pizzaIngredients.crusts[Math.floor((Math.random() * 4))];
   return randomCrust;
 }
 
@@ -451,9 +453,9 @@ var resizePizzas = function(size) {
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
     var pizzas = document.querySelectorAll(".randomPizzaContainer");
+    var dx = determineDx(pizzas[0], size);
+    var newwidth = (pizzas[0].offsetWidth + dx) + 'px';
     for (var i = 0; i < 100; i++) {
-      var dx = determineDx(pizzas[i], size);
-      var newwidth = (pizzas[i].offsetWidth + dx) + 'px';
       pizzas[i].style.width = newwidth;
     }
   }
@@ -470,8 +472,8 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
